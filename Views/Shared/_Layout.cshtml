@@ -1,0 +1,99 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Home</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Academico.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center"
+                    asp-area=""
+                    asp-controller="Home"
+                    asp-action="Index">
+                        <img src="~/img/logo.png"
+                        alt="Logo"
+                        class="logo-navbar me-2" />
+
+                        <div class="logo-text">
+                            <span>Central</span>
+                            <span>Acadêmico</span>
+                        </div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-wait" asp-controller="Aluno" asp-action="CriarAluno" asp-action="Index">Cadastrar Aluno</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-wait" asp-controller="Professor" asp-action="CriarProfessor" asp-action="Index">Cadastrar Professor</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link">Olá, @User.Identity.Name</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Login" asp-action="Sair">Sair</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Login" asp-action="Entrar">Login ADM</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @if (TempData["Mensagem"] != null)
+            {
+                <div id="alerta-notificacao" class="alert alert-@TempData["Tipo"]" role="alert">
+                    @TempData["Mensagem"]
+                </div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-light bg-dark">
+        <div class="container">
+            &copy; 2026 - Central Acadêmico - Aluno Natanael F Rodrigues
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+<script>
+    // Espera o documento carregar
+    document.addEventListener("DOMContentLoaded", function() {
+        var alerta = document.getElementById("alerta-notificacao");
+        
+        if (alerta) {
+            // Define um tempo de 5000 milissegundos (5 segundos)
+            setTimeout(function() {
+                alerta.style.display = 'none';
+            }, 6000);
+        }
+    });
+</script>
+</html>

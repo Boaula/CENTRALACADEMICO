@@ -1,0 +1,99 @@
+@{
+    ViewData["Title"] = "Login Administrativo";
+}
+
+<div class="row justify-content-center align-items-center min-vh-50">
+
+    <div class="col-md-6 col-lg-4">
+
+        <div class="card login-card shadow-lg border-0">
+
+            <div class="card-header login-header text-center">
+
+                <h3 class="mb-0">
+                    Login Administrativo
+                </h3>
+
+            </div>
+
+            <div class="card-body p-4">
+
+                @if (ViewBag.Erro != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Erro!</strong> @ViewBag.Erro
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                        </button>
+                    </div>
+                }
+
+                <form asp-controller="Login"
+                      asp-action="Entrar"
+                      method="post">
+
+                    <div class="mb-4">
+
+                        <label for="email" class="form-label text-light">
+                            E-mail do Administrador
+                        </label>
+
+                        <input type="email"
+                               name="email"
+                               class="form-control login-input"
+                               id="email"
+                               placeholder="admin@ifmt.edu.br"
+                               required>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label for="senha" class="form-label text-light">
+                            Senha
+                        </label>
+
+                        <input type="password"
+                               name="senha"
+                               class="form-control login-input"
+                               id="senha"
+                               required>
+
+                    </div>
+
+                    <div class="d-grid gap-3">
+
+                        <button type="submit"
+                                class="btn btn-primary btn-lg shadow">
+
+                            Entrar
+
+                        </button>
+
+                        <a asp-controller="Home"
+                           asp-action="Index"
+                           class="btn btn-outline-light">
+
+                            Voltar para Home
+
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="card-footer login-footer text-center">
+
+                Sistema Acadêmico - IFMT Campo Verde
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

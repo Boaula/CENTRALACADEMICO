@@ -1,0 +1,35 @@
+# Ignorar arquivos de configuração com senhas
+appsettings.json
+appsettings.Development.json
+
+## [ Dotnet ]
+bin/
+obj/
+out/
+appsettings.Development.json
+appsettings.Local.json
+
+## [ Visual Studio / VS Code ]
+.vscode/
+.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## [ Publish ]
+publish/
+*.pubxml
+
+## [ Banco de Dados / Migrations ]
+# Se quiser ignorar migrations (opcional):
+# Migrations/
+
+## [ SO / Linux ]
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

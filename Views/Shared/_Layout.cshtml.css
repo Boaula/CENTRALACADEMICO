@@ -1,0 +1,110 @@
+﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a {
+    color: #9ecfff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffffff;
+}
+
+/* CSS focado no estilo Batman/Dark */
+body {
+    background-color: #0a0a0a;
+    color: #6b0f0f;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.navbar {
+    background: linear-gradient(to right, #0d0d0d, #1b1b1b) !important;
+    border-bottom: 1px solid #2f2f2f !important;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #ffffff !important;
+}
+
+.nav-link {
+    color: #c0c0c0 !important;
+}
+
+.nav-link:hover {
+    color: #ffffff !important;
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer {
+  background-color: #111;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+
+.card {
+    background-color: #151515;
+    border: 1px solid #2f2f2f;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    color: #d1d1d1;
+}
+
+.card:hover {
+    border-color: #6c757d;
+    transition: 0.3s;
+}
+
+.glow-text {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+.container {
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

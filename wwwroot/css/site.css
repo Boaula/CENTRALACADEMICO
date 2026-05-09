@@ -1,0 +1,409 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background-color: #0a0a0a;
+    color: #002dc2;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+.logo-navbar {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.logo-text span:first-child {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.logo-text span:last-child {
+    font-size: 0.85rem;
+    color: #b0b0b0;
+    letter-spacing: 2px;
+}
+
+.navbar-brand {
+    transition: 0.3s;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.02);
+}
+
+.navbar-brand:hover .logo-text span:last-child {
+    color: white;
+}
+
+/* =========================
+   BATCAVE STYLE
+========================= */
+
+body {
+    background:
+        radial-gradient(circle at top, #1a1a1a 0%, #090909 45%, #050505 100%);
+    color: #d7d7d7;
+    overflow-x: hidden;
+}
+
+/* Container principal */
+
+.batcave-container {
+    padding: 40px 20px;
+}
+
+/* HERO */
+
+.hero-panel {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+/* Texto principal */
+
+.system-badge {
+    display: inline-block;
+    margin-bottom: 15px;
+    padding: 8px 14px;
+    border: 1px solid #333;
+    border-radius: 50px;
+    background-color: #101010;
+    color: #8f8f8f;
+    letter-spacing: 3px;
+    font-size: 0.75rem;
+}
+
+.bat-title {
+    font-size: 5rem;
+    font-weight: 900;
+    line-height: 0.9;
+    color: white;
+    text-shadow: 0 0 25px rgba(255,255,255,0.08);
+}
+
+.bat-title span {
+    display: block;
+    color: #0026ff;
+    text-shadow: 0 0 18px rgba(63, 0, 134, 0.35);
+}
+
+.bat-subtitle {
+    margin-top: 25px;
+    max-width: 600px;
+    color: #9d9d9d;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+/* Botões */
+
+.hero-buttons {
+    margin-top: 35px;
+    display: flex;
+    gap: 15px;
+}
+
+@keyframes pulseSignal {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Cards */
+
+.system-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.system-card {
+    background: linear-gradient(145deg, #101010, #1a1a1a);
+    border: 1px solid #2a2a2a;
+    border-radius: 18px;
+    padding: 30px;
+    transition: 0.3s ease;
+    box-shadow: 0 0 25px rgba(0,0,0,0.35);
+}
+
+.system-card:hover {
+    transform: translateY(-6px);
+    border-color: #1100ff;
+    box-shadow:
+        0 0 25px rgba(89, 0, 255, 0.08),
+        0 0 40px rgba(255,208,0,0.04);
+}
+
+.system-card h3 {
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.system-card p {
+    color: #9b9b9b;
+    line-height: 1.7;
+}
+
+/* Responsivo */
+
+@media (max-width: 900px) {
+
+    .hero-panel {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .bat-title {
+        font-size: 3rem;
+    }
+}
+
+/* =========================
+   HERO LOGO BATMAN STYLE
+========================= */
+
+.logo-glow-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Logo principal */
+
+.hero-logo {
+    width: 450px;
+
+    filter:
+        drop-shadow(0 0 12px rgba(108, 118, 255, 0.35))
+        drop-shadow(0 0 30px rgba(38, 0, 255, 0.18))
+        drop-shadow(0 0 60px rgba(132, 0, 255, 0.08));
+
+    animation: logoPulse 4s ease-in-out infinite;
+
+    transition: 0.4s ease;
+}
+
+/* Hover */
+
+.hero-logo:hover {
+
+    transform: scale(1.06);
+
+    filter:
+        drop-shadow(0 0 18px rgba(0, 47, 255, 0.45))
+        drop-shadow(0 0 40px rgba(0, 26, 255, 0.22))
+        drop-shadow(0 0 80px rgba(98, 0, 255, 0.12));
+}
+
+/* Pulsação suave */
+
+@keyframes logoPulse {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.03);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* =========================
+   BOTÃO AZUL NEON
+========================= */
+
+.neon-blue-btn {
+
+    background-color: #001eff;
+    color: white;
+
+    border: 1px solid #3b5bff;
+
+    box-shadow:
+        0 0 8px rgba(0,30,255,0.5),
+        0 0 20px rgba(0,30,255,0.25);
+
+    transition: 0.3s ease;
+}
+
+/* Hover */
+
+.neon-blue-btn:hover {
+
+    background-color: #0d2cff;
+    color: white;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 0 12px rgba(0,30,255,0.7),
+        0 0 35px rgba(0,30,255,0.45),
+        0 0 60px rgba(0,30,255,0.2);
+}
+
+/* =========================
+   LOGIN DARK BLUE
+========================= */
+
+.login-card {
+
+    background: linear-gradient(
+        145deg,
+        #081120,
+        #0d1b2d
+    );
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 0 25px rgba(0,0,0,0.45),
+        0 0 60px rgba(0,70,255,0.08);
+}
+
+/* HEADER */
+
+.login-header {
+
+    background: linear-gradient(
+        135deg,
+        #0d47a1,
+        #001b44
+    );
+
+    color: white;
+
+    padding: 22px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* BODY */
+
+.login-card .card-body {
+
+    background-color: #0a1625;
+}
+
+/* INPUTS */
+
+.login-input {
+
+    background-color: #111f33;
+
+    border: 1px solid #223c63;
+
+    color: white;
+
+    padding: 12px;
+}
+
+.login-input:focus {
+
+    background-color: #13243b;
+
+    color: white;
+
+    border-color: #4d8dff;
+
+    box-shadow:
+        0 0 10px rgba(77,141,255,0.25);
+}
+
+/* Placeholder */
+
+.login-input::placeholder {
+
+    color: #6f88a8;
+}
+
+/* FOOTER */
+
+.login-footer {
+
+    background-color: #081120;
+
+    color: #7f96b5;
+
+    border-top: 1px solid rgba(255,255,255,0.05);
+
+    padding: 14px;
+}
+
+/* BOTÃO */
+
+.btn-primary {
+
+    background: linear-gradient(
+        135deg,
+        #005eff,
+        #0036a3
+    );
+
+    border: none;
+}
+
+.btn-primary:hover {
+
+    background: linear-gradient(
+        135deg,
+        #337dff,
+        #0046d5
+    );
+}

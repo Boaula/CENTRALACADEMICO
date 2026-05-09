@@ -1,0 +1,85 @@
+@{
+    ViewData["Title"] = "Central Acadêmico";
+}
+
+<div class="batcave-container">
+
+    <section class="hero-panel">
+
+        <div class="hero-left">
+            <span class="system-badge">WAYNE TECH // SYSTEM</span>
+
+            <h1 class="bat-title">
+                CENTRAL
+                <span>ACADÊMICO</span>
+            </h1>
+
+            <p class="bat-subtitle">
+                Plataforma inteligente para gerenciamento acadêmico,
+                controle de alunos, professores e análise de desempenho.
+            </p>
+
+            <div class="hero-buttons">
+                <a asp-controller="Aluno"
+                   asp-action="CriarAluno"
+                   class="btn btn-outline-light btn-lg">
+                    Cadastrar Aluno
+                </a>
+
+                <a asp-controller="Professor"
+                   asp-action="CriarProfessor"
+                   class="btn neon-blue-btn btn-lg">
+                    Cadastrar Professor
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-right">
+            <div class="logo-glow-container">
+
+                <img src="~/img/logo.png"
+                    alt="Central Acadêmico"
+                    class="hero-logo" />
+
+            </div>
+        </div>
+
+    </section>
+
+    <section class="system-grid">
+
+        <div class="system-card">
+            <h3>Arquitetura</h3>
+            <p>
+                Estrutura modular baseada em ASP.NET MVC
+                para máxima escalabilidade e segurança.
+            </p>
+        </div>
+
+        <div class="system-card">
+            <h3>Performance</h3>
+            <p>
+                Processamento otimizado com consultas rápidas
+                e fluxo acadêmico em tempo real.
+            </p>
+        </div>
+
+        <div class="system-card">
+            <h3>Segurança</h3>
+            <p>
+                Controle administrativo com autenticação,
+                permissões e gerenciamento de acessos.
+            </p>
+        </div>
+
+        <div class="system-card">
+            <h3>Monitoramento</h3>
+            <p>
+                Painel preparado para análise de dados,
+                acompanhamento e gestão escolar moderna.
+            </p>
+        </div>
+
+    </section>
+
+</div>
