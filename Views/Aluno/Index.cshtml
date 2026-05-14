@@ -3,50 +3,58 @@
     ViewData["Title"] = "Perfil Aluno";
 }
 
-<div class="card mt-5" style="width: 18rem;">
-    <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">Centro Acadêmico</h5>
-    </div>
-    <ul class="list-group list-group-flush">
-        <a asp-controller="Professor" asp-action="Index" 
-           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-           Professores
-           <span class="badge bg-primary rounded-pill">→</span>
-        </a>
-        <li class="list-group-item text-muted">Fundamentos de Banco de Dados</li>
-        <li class="list-group-item text-muted">Cálculo I</li>
-    </ul>
-</div>
+<div class="container mt-5 pb-5">
+    @foreach(Aluno item in Model)
+    {
+    <div class="card mb-4 w-100 shadow-lg bg-dark border-secondary mt-5">
+            <div class="row g-0">
+                <!-- Coluna da Imagem com fundo contrastante -->
+                <div class="col-md-3 d-flex align-items-center justify-content-center bg-black rounded-start">
+                    <img src="~/img/avatar.png" class="img-fluid p-3" alt="Avatar" style="max-height: 150px; opacity: 0.8;">
+                </div>
+                
+                <div class="col-md-9">
+                    <div class="card-body h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <!-- Nome com o efeito de brilho que você já usa -->
+                            <h5 class="card-title glow-text text-white mb-3">DISCENTE: @item.Nome.ToUpper()</h5>
+                            
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="card-text text-secondary mb-1">
+                                        <small class="text-white fw-bold">NASCIMENTO:</small> 
+                                        @item.DataNascimento.ToString("dd/MM/yyyy")
+                                    </p>
+                                    <p class="card-text text-secondary">
+                                        <small class="text-white fw-bold">CURSO:</small> @item.Curso
+                                    </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="card-text text-secondary mb-1">
+                                        <small class="text-white fw-bold">MATRÍCULA:</small> @item.Matricula
+                                    </p>
+                                    <p class="card-text text-secondary">
+                                        <small class="text-white fw-bold">SITUAÇÃO:</small> <span class="text-info">REGULAR</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
-@foreach(Aluno item in Model)
-{
-    <div class="card mb-3 w-100 mt-5" >
-    <div class="row g-0">
-        <div class="col-md-4 w-30">
-        <img src="img/avatar.png" class="img-fluid rounded-start" alt="Avatar">
-        </div>
-        <div class="col-md-8">
-        <div class="card-body h-100 d-flex flex-column justify-content-around">
-            <p class="card-text">Nome: @item.Nome</p>
-            <p class="card-text">Data Nascimento: @item.DataNascimento.Day/@item.DataNascimento.Month/@item.DataNascimento.Year</p>
-            <p class="card-text">Curso: @item.Curso</p>
-            <p class="card-text">Matrícula: @item.Matricula</p>
-            <div>
-            <a class="btn btn-danger" asp-action="ExcluirAluno"
-                asp-controller="Aluno"
-                asp-route-id="@item.Id">
-                Exluir
-            </a>
+                        <!-- Botões alinhados ao final -->
+                        <div class="mt-3 d-flex justify-content-end gap-2">
+                            <a class="btn btn-outline-info btn-sm" asp-action="AtualizarAluno" asp-route-id="@item.Id">
+                                EDITAR
+                            </a>
+                            <a class="btn btn-danger btn-metallic btn-sm fw-bold" 
+                            asp-action="ExcluirAluno" 
+                            asp-controller="Aluno" 
+                            asp-route-id="@item.Id">
+                                EXCLUIR
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-    </div>
-    </div>
-}
-
-<ul class="list-group list-group-flush mt-5">
-    <h5>Disciplinas Cursadas:</h5>
-    <li class="list-group-item">Programação WEB I</li>
-    <li class="list-group-item">Fundamentos de Banco de Dados</li>
-    <li class="list-group-item">Cálculo I</li>
-</ul>
+    }
+</div>

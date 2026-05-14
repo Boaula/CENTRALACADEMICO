@@ -42,6 +42,9 @@ dotnet ef database update
 4. Rodar a aplicação:
 dotnet run
 
+Executar e se atualizar:
+dotnet watch run
+
 
 ## ⚙️ Configuração Local
 

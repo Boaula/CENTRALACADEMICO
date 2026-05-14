@@ -1,0 +1,35 @@
+@model List<Academico.Models.Aluno>;
+@{
+    ViewData["Title"] = "Perfil Aluno";
+}
+
+<div class="container mt-5 pb-5">
+    @foreach(Aluno item in Model)
+    {
+    <div class="card mb-4 w-100 shadow-lg bg-dark border-secondary mt-5">
+            <div class="row g-0">
+                <!-- Coluna da Imagem com fundo contrastante -->
+                <div class="col-md-3 d-flex align-items-center justify-content-center bg-black rounded-start">
+                    <img src="~/img/avatar.png" class="img-fluid p-3" alt="Avatar" style="max-height: 150px; opacity: 0.8;">
+                </div>
+                
+                <div class="col-md-9">
+                    <div class="card-body h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <!-- Nome com o efeito de brilho que você já usa -->
+                            <h5 class="card-title glow-text text-white mb-3">DISCENTE: @item.Nome.ToUpper()</h5>
+                            
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="card-text text-secondary">
+                                        <small class="text-white fw-bold">CURSO:</small> @item.Curso
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,33 +1,67 @@
 @model Professor
 
-<form method="post" asp-action="CriarProfessor">
-  <div class="form-group">
-    <label for="formGroupExampleInput">Nome</label>
-    <input asp-for="Nome" type="text" class="form-control" id="formGroupExampleInput" placeholder="Nome e sobre nome do Professor">
-  </div>
-  <div class="form-group">
-      <label for="cpfInput">CPF</label>
-      <input asp-for="Cpf" type="text" class="form-control" id="cpfInput" placeholder="000.000.000-00">
-      <span asp-validation-for="Cpf" class="text-danger"></span>
-  </div>
-  <div class="form-group">
-    <label for="siape">Siape</label>
-    <input asp-for="Siape" type="text" class="form-control" id="siape" />
-  </div>
-  <div class="form-group">
-    <label for="formGroupExampleInput2">Data de Nascimento</label>
-    <input asp-for="DataNascimento" type="date" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
-  </div>
-  <div class="form-group">
-    <label for="formGroupExampleInput2">Área</label>
-    <select asp-for="Area" class="form-control">
-        <option id="1">Computação</option>
-        <option id="2">Agronomia</option>
-        <option id="3">Matemática</option>
-    </select>
-  </div>
-  <button class="mt-5 btn btn-success">Cadastrar</button>
-</form>
+<div class="container mt-3 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header border-secondary bg-dark">
+                    <h2 class="glow-text text-white h4 mb-0">REGISTRO DE DOCENTE</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-action="CriarProfessor">
+                        
+                        <div class="row">
+                            <!-- Nome Completo -->
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Nome" class="form-label text-dark">Nome Completo</label>
+                                <input asp-for="Nome" class="form-control bg-dark text-white border-secondary" placeholder="Nome e sobrenome do Professor">
+                                <span asp-validation-for="Nome" class="text-danger small"></span>
+                            </div>
+
+                            <!-- CPF -->
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Cpf" class="form-label text-dark">CPF</label>
+                                <input asp-for="Cpf" class="form-control bg-dark text-white border-secondary" id="cpfInput" placeholder="000.000.000-00">
+                                <span asp-validation-for="Cpf" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Siape -->
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Siape" class="form-label text-dark">Siape</label>
+                                <input asp-for="Siape" class="form-control bg-dark text-white border-secondary" placeholder="Matrícula SIAPE">
+                                <span asp-validation-for="Siape" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Data de Nascimento -->
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="DataNascimento" class="form-label text-dark">Data de Nascimento</label>
+                                <input asp-for="DataNascimento" type="date" class="form-control bg-dark text-white border-secondary">
+                                <span asp-validation-for="DataNascimento" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Área -->
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Area" class="form-label text-dark">Área de Atuação</label>
+                                <select asp-for="Area" class="form-select bg-dark text-white border-secondary">
+                                    <option value="" selected disabled>Selecione a área...</option>
+                                    <option value="Computação">Computação</option>
+                                    <option value="Agronomia">Agronomia</option>
+                                    <option value="Matemática">Matemática</option>
+                                </select>
+                                <span asp-validation-for="Area" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-metallic fw-bold">EFETUAR CADASTRO</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Voltar para Listagem</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

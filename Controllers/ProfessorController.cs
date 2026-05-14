@@ -20,6 +20,13 @@ public class ProfessorController : Controller
         return View(professores);
     }
 
+    [AllowAnonymous] //Alimenta a Lista publica de professores 
+    public async Task<IActionResult> ProfessoresPublic()
+    {
+        var professores = await _professorRepository.GetAllProfessores();
+        return View(professores); 
+    }
+
     [Authorize] // Bloqueia tudo para quem não está logado
     public IActionResult CriarProfessor()
     {
@@ -43,12 +50,18 @@ public class ProfessorController : Controller
         return RedirectToAction("CriarProfessor");
     }
 
-    public IActionResult AtualizarProfessor()
+    [Authorize] // Bloqueia tudo para quem não está logado
+    [HttpGet]
+    public async Task<IActionResult> AtualizarProfessor(int id)
     {
-        return View();
+        var professor = await _professorRepository.BuscarPorIdAsync(id);
+        if (professor == null) return NotFound();
+
+        return View(professor);
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AtualizarProfessorAsync(Professor professor)
     {
         if(await _professorRepository.AtualizarProfessorAsync(professor))
@@ -62,7 +75,9 @@ public class ProfessorController : Controller
         }
         return RedirectToAction("Atualizarprofessor");
     }
-        public async Task<IActionResult> ExcluirProfessorAsync(int Id)
+    
+    [Authorize]
+    public async Task<IActionResult> ExcluirProfessorAsync(int Id)
     {
         if(await _professorRepository.ExcluirProfessorAsync(Id))
         {

@@ -18,35 +18,16 @@
                         <h5 class="card-title glow-text text-white mb-3">DOCENTE: @item.Nome.ToUpper()</h5>
                         <div class="row">
                             <div class="col-sm-6">
-                                <p class="card-text text-secondary mb-1">
-                                    <small class="text-white fw-bold">NASCIMENTO:</small> 
-                                    @item.DataNascimento.ToString("dd/MM/yyyy")
-                                </p>
                                 <p class="card-text text-secondary">
                                     <small class="text-white fw-bold">ÁREA:</small> @item.Area
                                 </p>
                             </div>
                             <div class="col-sm-6">
-                                <p class="card-text text-secondary mb-1">
-                                    <small class="text-white fw-bold">SIAPE:</small> @item.Siape
-                                </p>
                                 <p class="card-text text-secondary">
                                     <small class="text-white fw-bold">STATUS:</small> <span class="text-success">ATIVO</span>
                                 </p>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="mt-3 d-flex justify-content-end gap-2">
-                        <a class="btn btn-outline-info btn-sm" asp-action="AtualizarProfessor" asp-route-id="@item.Id">
-                            EDITAR
-                        </a>
-                        <a class="btn btn-danger btn-metallic btn-sm fw-bold" 
-                        asp-action="ExcluirProfessor" 
-                        asp-controller="Professor" 
-                        asp-route-id="@item.Id">
-                            EXCLUIR
-                        </a>
                     </div>
                 </div>
             </div>

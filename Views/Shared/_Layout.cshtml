@@ -9,10 +9,11 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Academico.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/button.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom shadow mb-1">
             <div class="container-fluid">
                 <a class="navbar-brand d-flex align-items-center"
                     asp-area=""
@@ -34,10 +35,10 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-wait" asp-controller="Aluno" asp-action="CriarAluno" asp-action="Index">Cadastrar Aluno</a>
+                            <a class="nav-link text-wait" asp-controller="Aluno" asp-action="AlunosPublic">Alunos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-wait" asp-controller="Professor" asp-action="CriarProfessor" asp-action="Index">Cadastrar Professor</a>
+                            <a class="nav-link text-wait" asp-controller="Professor" asp-action="ProfessoresPublic">Professores</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
@@ -60,6 +61,35 @@
                 </div>
             </div>
         </nav>
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+        <nav class="navbar navbar-expand navbar-dark bg-black border-bottom border-secondary p-0 m-0" style="min-height: 35px;">
+            <div class="container d-flex justify-content-center">
+                <ul class="navbar-nav gap-4" style="font-size: 0.85rem;">
+                    <li class="nav-item">
+                        <a class="nav-link py-1 text-success fw-bold" asp-controller="Aluno" asp-action="CriarAluno">
+                            <i class="bi bi-plus-circle"></i> Cadastrar Aluno
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link py-1 text-success fw-bold" asp-controller="Professor" asp-action="CriarProfessor">
+                            <i class="bi bi-plus-circle"></i> Cadastrar Professor
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link py-1 text-info fw-bold" asp-controller="Aluno" asp-action="Index">
+                            LISTA ALUNOS
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link py-1 text-info fw-bold" asp-controller="Professor" asp-action="Index">
+                            LISTA PROFESSORES
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        }
     </header>
     <div class="container">
         <main role="main" class="pb-3">

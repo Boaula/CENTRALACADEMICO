@@ -17,6 +17,11 @@ public class ProfessorRepository : IProfessorRepository
         return await _context.Professores.ToListAsync();
     }
 
+    public async Task<Professor> BuscarPorIdAsync(int id)
+    {
+        return await _context.Professores.FirstOrDefaultAsync(x => x.Id == id);
+    }
+
     public async Task<bool> CriarProfessorAsync(Professor professor)
     {
         await _context.AddAsync(professor);
@@ -50,4 +55,5 @@ public interface IProfessorRepository
     Task <bool> CriarProfessorAsync(Professor Professor);
     Task<bool> AtualizarProfessorAsync(Professor professor);
     Task<bool> ExcluirProfessorAsync(int id);
+    Task<Professor> BuscarPorIdAsync(int id);
 }

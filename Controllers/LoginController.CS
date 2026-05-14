@@ -23,7 +23,12 @@ public class LoginController : Controller
 
         if (email == adminEmail && senha == adminSenha)
         {
-            var claims = new List<Claim> { new Claim(ClaimTypes.Name, "Administrador") };
+            var claims = new List<Claim> 
+            { 
+                new Claim(ClaimTypes.Name, "Administrador"),
+                new Claim(ClaimTypes.Role, "Admin")
+            };
+            
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));

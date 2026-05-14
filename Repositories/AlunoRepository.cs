@@ -34,6 +34,12 @@ public class AlunoRepository : IAlunoRepository
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<Aluno> BuscarPorIdAsync(int id)
+    {
+        // O FirstOrDefaultAsync busca o aluno que tem o ID igual ao que clicamos na lista
+        return await _context.Alunos.FirstOrDefaultAsync(x => x.Id == id);
+    }
     
     public async Task<bool> ExcluirAlunoAsync(int id)
     {
@@ -52,5 +58,6 @@ public interface IAlunoRepository
     Task<List<Aluno>> GetAllAlunos();
     Task<bool> AtualizarAlunoAsync(Aluno aluno);
     Task<bool> ExcluirAlunoAsync(int id);
+    Task<Aluno> BuscarPorIdAsync(int id);
 }
 

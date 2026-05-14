@@ -13,11 +13,19 @@ public class AlunoController : Controller
     {
         _alunoRepository = alunoRepository;
     }
-
+    
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
         var alunos = await _alunoRepository.GetAllAlunos();
         return View(alunos);
+    }
+
+    [AllowAnonymous]
+    public async Task<IActionResult> AlunosPublic()
+    {
+        var alunos = await _alunoRepository.GetAllAlunos();
+        return View(alunos); 
     }
 
     [Authorize] // Bloqueia tudo para quem não está logado
@@ -42,12 +50,24 @@ public class AlunoController : Controller
         return RedirectToAction("CriarAluno");
     }
 
-       public IActionResult AtualizarAluno()
+    // 1. ESTE É O QUE BUSCA OS DADOS (Faltava este)
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> AtualizarAluno(int id)
     {
-        return View();
+        // Usamos o método que acabamos de criar no repositório
+        var aluno = await _alunoRepository.BuscarPorIdAsync(id);
+
+        if (aluno == null)
+        {
+            return NotFound(); // Caso o ID não exista no banco
+        }
+
+        return View(aluno); // Aqui a mágica acontece: os dados vão para o Form
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AtualizarAlunoAsync(Aluno aluno)
     {
         if(await _alunoRepository.AtualizarAlunoAsync(aluno))
@@ -61,7 +81,9 @@ public class AlunoController : Controller
         }
         return RedirectToAction("AtualizarAluno");
     }
-        public async Task<IActionResult> ExcluirAlunoAsync(int Id)
+
+    [Authorize]
+    public async Task<IActionResult> ExcluirAlunoAsync(int Id)
     {
         if(await _alunoRepository.ExcluirAlunoAsync(Id))
         {

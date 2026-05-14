@@ -1,29 +1,65 @@
 @model Professor
 
-<form method="post" asp-action="AtualizarProfessor">
-  <div class="form-group">
-    <label for="formGroupExampleInput">Id Professor</label>
-    <input asp-for="Id" type="number" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
-  </div>
-  <div class="form-group">
-    <label for="formGroupExampleInput">Nome</label>
-    <input asp-for="Nome" type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
-  </div>
-  <div class="form-group">
-    <label for="formGroupExampleInput2">CPF</label>
-    <input asp-for="Cpf" type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
-  </div>
-  <div class="form-group">
-    <label for="formGroupExampleInput2">Data de Nascimento</label>
-    <input asp-for="DataNascimento" type="date" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
-  </div>
-  <div class="form-group">
-    <label for="formGroupExampleInput2">Área</label>
-    <select asp-for="Area" class="form-control">
-        <option id="1">Computação</option>
-        <option id="2">Agronomia</option>
-        <option id="3">Matemática</option>
-    </select>
-  </div>
-  <button class="mt-5 btn btn-success">Atualizar</button>
-</form>
+<div class="container mt-3 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg bg-dark border-secondary">
+                <div class="card-header border-secondary bg-black">
+                    <h5 class="glow-text text-white mb-0">ATUALIZAR DOCENTE: @Model.Nome.ToUpper()</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-action="AtualizarProfessor">
+                        
+                        <!-- Campo ID Oculto - Sem isso o Update falha! -->
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Nome" class="form-label text-white-50">Nome Completo</label>
+                                <input asp-for="Nome" class="form-control bg-black text-white border-secondary">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Cpf" class="form-label text-white-50">CPF</label>
+                                <input asp-for="Cpf" class="form-control bg-black text-white border-secondary" id="cpfInput">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Siape" class="form-label text-white-50">SIAPE</label>
+                                <input asp-for="Siape" class="form-control bg-black text-white border-secondary">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="DataNascimento" class="form-label text-white-50">Nascimento</label>
+                                <input asp-for="DataNascimento" type="date" class="form-control bg-black text-white border-secondary">
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Area" class="form-label text-white-50">Área de Atuação</label>
+                                <select asp-for="Area" class="form-select bg-black text-white border-secondary">
+                                    <option value="Computação">Computação</option>
+                                    <option value="Agronomia">Agronomia</option>
+                                    <option value="Matemática">Matemática</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-metallic fw-bold">SALVAR ALTERAÇÕES</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#cpfInput').mask('000.000.000-00');
+        });
+    </script>
+}
