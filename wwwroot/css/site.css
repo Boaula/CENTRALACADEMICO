@@ -32,6 +32,10 @@ body {
   text-align: start;
 }
 
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.35) !important;
+}
+
 .logo-navbar {
     width: 50px;
     height: 50px;
@@ -406,4 +410,22 @@ body {
         #337dff,
         #0046d5
     );
+}
+
+/* Efeito de foco tecnológico ao passar o mouse sobre o card */
+.hover-bat-card {
+    transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.hover-bat-card:hover {
+    transform: translateY(-4px);
+    border-color: #198754 !important; /* Acende a borda em verde metálico */
+    box-shadow: 0 10px 20px rgba(25, 135, 84, 0.15) !important; /* Sombra sutil esverdeada */
+}
+
+/* Utilitário para subtextos minúsculos de etiquetas */
+.text-xs {
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }

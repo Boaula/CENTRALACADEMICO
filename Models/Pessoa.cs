@@ -1,9 +1,16 @@
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+
 namespace Academico.Models;
 
-public class Pessoa
+public class Pessoa : IdentityUser<int>
 {
-    public int Id {get; set; }
-    public string Nome {get; set; }
-    public string Cpf {get; set; }
-    public DateOnly DataNascimento {get; set; }
+    [Required]
+    public string Nome { get; set; }
+
+    [Required]
+    public string Cpf { get; set; }
+
+    [Required]
+    public DateOnly DataNascimento { get; set; }
 }

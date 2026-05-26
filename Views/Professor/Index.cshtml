@@ -3,6 +3,10 @@
     ViewData["Title"] = "Perfil Professor";
 }
 <div class="container mt-5 pb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+        <h2 class="glow-text text-white h3 mb-0 text-uppercase tracking-wider">Editar Professores</h2>
+        <a asp-action="CriarProfessor" class="btn btn-success btn-metallic fw-bold shadow-sm">+ NOVO PROFESSOR</a>
+    </div>
     @foreach(Professor item in Model)
     {
     <div class="card mb-4 w-100 shadow-lg bg-dark border-secondary">

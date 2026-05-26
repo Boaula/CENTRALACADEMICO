@@ -40,6 +40,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-wait" asp-controller="Professor" asp-action="ProfessoresPublic">Professores</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-wait" asp-controller="Disciplina" asp-action="">Disciplinas</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         @if (User.Identity.IsAuthenticated)
@@ -61,29 +64,40 @@
                 </div>
             </div>
         </nav>
-        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        @* Exibe a barra de edição apenas se o usuário estiver logado e NÃO for um Aluno (não possui matrícula) *@
+        @if (User.Identity != null && User.Identity.IsAuthenticated && !User.HasClaim(c => c.Type == "Matricula"))
         {
         <nav class="navbar navbar-expand navbar-dark bg-black border-bottom border-secondary p-0 m-0" style="min-height: 35px;">
             <div class="container d-flex justify-content-center">
                 <ul class="navbar-nav gap-4" style="font-size: 0.85rem;">
                     <li class="nav-item">
-                        <a class="nav-link py-1 text-success fw-bold" asp-controller="Aluno" asp-action="CriarAluno">
-                            <i class="bi bi-plus-circle"></i> Cadastrar Aluno
+                        <a class="nav-link py-1 text-info fw-bold" asp-controller="Aluno" asp-action="CriarAluno">
+                            <i class="bi bi-plus-circle"></i> ADD Aluno
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link py-1 text-success fw-bold" asp-controller="Professor" asp-action="CriarProfessor">
-                            <i class="bi bi-plus-circle"></i> Cadastrar Professor
+                        <a class="nav-link py-1 text-info fw-bold" asp-controller="Professor" asp-action="CriarProfessor">
+                            <i class="bi bi-plus-circle"></i> ADD Professor
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link py-1 text-info fw-bold" asp-controller="Aluno" asp-action="Index">
-                            LISTA ALUNOS
+                        <a class="nav-link py-1 text-success fw-bold" asp-controller="Aluno" asp-action="Index">
+                            Edit Alunos
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link py-1 text-info fw-bold" asp-controller="Professor" asp-action="Index">
-                            LISTA PROFESSORES
+                        <a class="nav-link py-1 text-success fw-bold" asp-controller="Professor" asp-action="Index">
+                            Edit Professores
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link py-1 text-info fw-bold" asp-controller="Disciplina" asp-action="CriarDisciplina">
+                            ADD Disciplina
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link py-1 text-success fw-bold" asp-controller="Disciplina" asp-action="EditarDisciplina">
+                            Edit Disciplina
                         </a>
                     </li>
                 </ul>

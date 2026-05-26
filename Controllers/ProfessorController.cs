@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Academico.Models;
 using Academico.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Academico.Services;
 
 namespace Academico.Controllers;
-
+    
+[Authorize] // Bloqueia tudo para quem não está logado
 public class ProfessorController : Controller
 {
     readonly IProfessorRepository _professorRepository;
@@ -13,28 +15,29 @@ public class ProfessorController : Controller
     {
         _professorRepository = professorRepository;
     }
-
+    
+    [ApenasAdmin]
     public async Task<IActionResult> Index()
     {
         var professores = await _professorRepository.GetAllProfessores();
         return View(professores);
     }
-
-    [AllowAnonymous] //Alimenta a Lista publica de professores 
+    
     public async Task<IActionResult> ProfessoresPublic()
     {
         var professores = await _professorRepository.GetAllProfessores();
         return View(professores); 
     }
 
-    [Authorize] // Bloqueia tudo para quem não está logado
+    [ApenasAdmin]
+
     public IActionResult CriarProfessor()
     {
         return View();
     }
 
+    [ApenasAdmin]
     [HttpPost]
-    [Authorize] // Bloqueia tudo para quem não está logado
     public async Task<IActionResult> CriarProfessorAsync(Professor professor)
     {
         if(await _professorRepository.CriarProfessorAsync(professor))
@@ -50,7 +53,7 @@ public class ProfessorController : Controller
         return RedirectToAction("CriarProfessor");
     }
 
-    [Authorize] // Bloqueia tudo para quem não está logado
+    [ApenasAdmin]
     [HttpGet]
     public async Task<IActionResult> AtualizarProfessor(int id)
     {
@@ -60,8 +63,8 @@ public class ProfessorController : Controller
         return View(professor);
     }
 
+    [ApenasAdmin]
     [HttpPost]
-    [Authorize]
     public async Task<IActionResult> AtualizarProfessorAsync(Professor professor)
     {
         if(await _professorRepository.AtualizarProfessorAsync(professor))
@@ -76,7 +79,7 @@ public class ProfessorController : Controller
         return RedirectToAction("Atualizarprofessor");
     }
     
-    [Authorize]
+    [ApenasAdmin]
     public async Task<IActionResult> ExcluirProfessorAsync(int Id)
     {
         if(await _professorRepository.ExcluirProfessorAsync(Id))

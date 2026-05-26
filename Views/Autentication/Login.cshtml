@@ -1,0 +1,54 @@
+@model Academico.Models.LoginViewModel
+
+@{
+    Layout = "_Layout"; 
+    ViewData["Title"] = "Acesso do Aluno";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+        <div class="col-md-5">
+            <div class="card shadow-lg bg-dark border-secondary">
+                <div class="card-header border-secondary bg-black text-center py-3">
+                    <h2 class="text-white h4 mb-0 fw-bold tracking-wider" style="text-shadow: 0 0 10px rgba(13, 110, 253, 0.5);">
+                        🔐 PORTAL DO ALUNO
+                    </h2>
+                </div>
+                <div class="card-body p-4">
+                    
+                    @if (TempData["MensagemSucesso"] != null)
+                    {
+                        <div class="alert alert-success bg-black border-success text-success text-center font-monospace small mb-3">
+                            🎉 @TempData["MensagemSucesso"]
+                        </div>
+                    }
+                    
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                    <form asp-action="Login" method="post">
+                        
+                        <div class="form-group mb-3">
+                            <label asp-for="Matricula" class="form-label text-white-50 small fw-bold">CPF DO ESTUDANTE</label>
+                            <input asp-for="Matricula" class="form-control bg-black text-white border-secondary font-monospace" placeholder="000.000.000-00 (Apenas números)" />
+                            <span asp-validation-for="Matricula" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Senha" class="form-label text-white-50 small fw-bold">SENHA DE ACESSO</label>
+                            <input asp-for="Senha" type="password" class="form-control bg-black text-white border-secondary" placeholder="••••••••" />
+                            <span asp-validation-for="Senha" class="text-danger small"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 fw-bold py-2 mb-3 tracking-wider">
+                            ENTRAR NO SISTEMA
+                        </button>
+                    </form>
+                </div>
+                <div class="card-footer border-secondary bg-black text-center py-3">
+                    <span class="text-muted small">Novo por aqui?</span>
+                    <a asp-action="Cadastro" class="text-info small fw-bold text-decoration-none ms-1">Primeiro Acesso / Cadastre-se</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

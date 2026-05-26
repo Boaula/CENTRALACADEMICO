@@ -1,0 +1,156 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Painel do Administrador";
+    
+    // Descobre se o que veio do Controller foi a lista de cards ou o formulário de edição
+    bool ehLista = Model is IEnumerable<Academico.Models.Disciplina>;
+}
+
+<div class="container mt-4 pb-5">
+
+    @if (ehLista)
+    {
+        // =================================================================
+        // VISTA 1: LISTA DE CARDS DO ADM (Acessado via /Disciplina/EditarDisciplina)
+        // =================================================================
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+            <h2 class="glow-text text-white h3 mb-0 text-uppercase tracking-wider">Editar Disiciplinas</h2>
+            <a asp-action="CriarDisciplina" class="btn btn-success btn-metallic fw-bold shadow-sm">+ NOVA DISCIPLINA</a>
+        </div>
+
+        <div class="d-flex flex-column gap-3">
+            @foreach (var disciplina in (IEnumerable<Academico.Models.Disciplina>)Model)
+            {
+                <div class="card bg-dark border-secondary shadow-lg">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-9 p-3">
+                                <span class="badge bg-secondary text-black fw-bold px-2 py-1 text-uppercase mb-2">@disciplina.Periodo</span>
+                                <h3 class="text-white h5 mb-1 fw-bold">@disciplina.Nome</h3>
+                                <p class="text-success small font-monospace mb-0">🆔 DISCIPLINA: #@disciplina.CodigoDisciplina | 📑 DIÁRIO: @disciplina.CodigoDiario | 🛡️ @disciplina.Grau | ⏱️ @disciplina.Horario | 📍 @disciplina.LocalAula</p>
+                            </div>
+                            
+                            <div class="col-12 col-md-3 p-3 bg-black bg-opacity-40 d-flex flex-md-column justify-content-center gap-2 border-top border-top-md-0 border-start-md border-secondary">
+                                <a asp-action="EditarDisciplina" asp-route-id="@disciplina.Id" class="btn btn-outline-success fw-bold btn-sm">
+                                    EDITAR
+                                </a>
+                                <button type="button" class="btn btn-outline-danger fw-bold btn-sm" data-bs-toggle="modal" data-bs-target="#modalExcluir-@disciplina.Id">
+                                    EXCLUIR
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="modalExcluir-@disciplina.Id" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content bg-dark text-white border-danger">
+                            <div class="modal-header bg-black border-danger">
+                                <h5 class="modal-title text-danger fw-bold">⚠️ CONFIRMAÇÃO DE EXCLUSÃO</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body text-center py-4">
+                                <p>Deseja apagar permanentemente a disciplina?</p>
+                                <h4 class="text-white">@disciplina.Nome</h4>
+                            </div>
+                            <div class="modal-footer bg-black border-danger">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                                <form asp-action="ExcluirDisciplina" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@disciplina.Id" />
+                                    <button type="submit" class="btn btn-danger fw-bold">APAGAR REGISTRO</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        // =================================================================
+        // VISTA 2: FORMULÁRIO DE EDIÇÃO (Acessado via /Disciplina/EditarDisciplina/5)
+        // =================================================================
+        var editModel = (Academico.Models.DisciplinaViewModel)Model;
+
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-8"> 
+                <div class="card shadow-lg bg-dark border-secondary">
+                    <div class="card-header border-secondary bg-black d-flex justify-content-between align-items-center">
+                        <h2 class="glow-text text-white h4 mb-0">EDITAR DADOS DA DISCIPLINA</h2>
+                        <a asp-action="EditarDisciplina" asp-route-id="" class="btn btn-sm btn-outline-secondary">VOLTAR AO PAINEL</a>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" asp-action="EditarDisciplina">
+                            <input type="hidden" name="Id" value="@editModel.Id" />
+
+                            <div class="row">
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="form-label text-white-50">Período / Semestre</label>
+                                    <select name="Periodo" class="form-control form-select bg-black text-white border-secondary" asp-items="@ViewBag.Periodos"></select>
+                                </div>
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="form-label text-white-50">Nome da Disciplina</label>
+                                    <input name="Nome" type="text" class="form-control bg-black text-white border-secondary" value="@editModel.Nome">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="form-label text-white-50">Grau</label>
+                                    <select name="Grau" class="form-control form-select bg-black text-white border-secondary" asp-items="@ViewBag.Grau"></select>
+                                </div>
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="form-label text-white-50">Turno</label>
+                                    <input name="Turno" type="text" class="form-control bg-black text-white border-secondary" value="@editModel.Turno">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="form-label text-white-50">Carga Horária</label>
+                                    <input name="CargaHoraria" type="number" class="form-control bg-black text-white border-secondary" value="@editModel.CargaHoraria">
+                                </div>
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="form-label text-white-50">Total Aulas</label>
+                                    <input name="TotalAulas" type="number" class="form-control bg-black text-white border-secondary" value="@editModel.TotalAulas">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="form-label text-white-50">Etapas</label>
+                                    <input name="QuantidadeEtapas" type="number" class="form-control bg-black text-white border-secondary" value="@editModel.QuantidadeEtapas">
+                                </div>
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="form-label text-white-50">Horário</label>
+                                    <input name="Horario" type="text" class="form-control bg-black text-white border-secondary" value="@editModel.Horario">
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label class="form-label text-white-50">Local Aula</label>
+                                <input name="LocalAula" type="text" class="form-control bg-black text-white border-secondary" value="@editModel.LocalAula">
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label class="form-label text-white-50">Professor Responsável</label>
+                                <select name="ProfessorId" class="form-control form-select bg-black text-white border-secondary" asp-items="@ViewBag.Professor"></select>
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-metallic fw-bold w-100 mt-2">SALVAR ALTERAÇÕES</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!ehLista)
+{
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+}

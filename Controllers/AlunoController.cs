@@ -2,9 +2,11 @@ using Academico.Models;
 using Academico.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Academico.Services;
 
 namespace Academico.Controllers;
 
+[Authorize] // Bloqueia tudo para quem não está logado
 public class AlunoController : Controller
 {
     readonly IAlunoRepository _alunoRepository;
@@ -13,7 +15,8 @@ public class AlunoController : Controller
     {
         _alunoRepository = alunoRepository;
     }
-    
+
+    [ApenasAdmin]
     [HttpGet]
     public async Task<IActionResult> Index()
     {
@@ -21,21 +24,20 @@ public class AlunoController : Controller
         return View(alunos);
     }
 
-    [AllowAnonymous]
     public async Task<IActionResult> AlunosPublic()
     {
         var alunos = await _alunoRepository.GetAllAlunos();
         return View(alunos); 
     }
 
-    [Authorize] // Bloqueia tudo para quem não está logado
+    [ApenasAdmin]
     public IActionResult CriarAluno()
     {
         return View();
     }
 
+    [ApenasAdmin]
     [HttpPost]
-    [Authorize] // Bloqueia tudo para quem não está logado
     public async Task<IActionResult> CriarAlunoAsync(Aluno aluno)
     {
         if(await _alunoRepository.CriarAlunoAsync(aluno))
@@ -51,8 +53,8 @@ public class AlunoController : Controller
     }
 
     // 1. ESTE É O QUE BUSCA OS DADOS (Faltava este)
+    [ApenasAdmin]
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> AtualizarAluno(int id)
     {
         // Usamos o método que acabamos de criar no repositório
@@ -66,8 +68,8 @@ public class AlunoController : Controller
         return View(aluno); // Aqui a mágica acontece: os dados vão para o Form
     }
 
+    [ApenasAdmin]
     [HttpPost]
-    [Authorize]
     public async Task<IActionResult> AtualizarAlunoAsync(Aluno aluno)
     {
         if(await _alunoRepository.AtualizarAlunoAsync(aluno))
@@ -82,7 +84,7 @@ public class AlunoController : Controller
         return RedirectToAction("AtualizarAluno");
     }
 
-    [Authorize]
+    [ApenasAdmin]
     public async Task<IActionResult> ExcluirAlunoAsync(int Id)
     {
         if(await _alunoRepository.ExcluirAlunoAsync(Id))
