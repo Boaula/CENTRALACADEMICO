@@ -32,7 +32,7 @@ public class DisciplinaController : Controller
         return View(Disciplina);
     }
 
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]  // 🚨 APENAS usuários com a Role "Admin" passam daqui
     [HttpGet]
     public async Task<IActionResult> CriarDisciplina()
     {
@@ -68,7 +68,7 @@ public class DisciplinaController : Controller
         return View("CriarDisciplina");
     }
 
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> CriarDisciplina(DisciplinaViewModel model)
     {
@@ -138,7 +138,7 @@ public class DisciplinaController : Controller
     }
 
     
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     // ROTA 1 - GET: Disciplina/EditarDisciplina (Sem ID)
     // Mostra a lista de cards com os botões para o ADM
     [HttpGet]
@@ -151,7 +151,7 @@ public class DisciplinaController : Controller
     }
 
 
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     // ROTA 2 - GET: Disciplina/EditarDisciplina/5 (Com ID)
     // Mostra o formulário de edição da disciplina selecionada
     [HttpGet]
@@ -197,7 +197,7 @@ public class DisciplinaController : Controller
     }
 
  
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     // POST: Disciplina/EditarDisciplina
     [HttpPost]
     public async Task<IActionResult> EditarDisciplina(DisciplinaViewModel model)
@@ -240,7 +240,7 @@ public class DisciplinaController : Controller
     }
 
     
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     // POST: Disciplina/ExcluirDisciplina
     [HttpPost]
     public async Task<IActionResult> ExcluirDisciplina(int id)

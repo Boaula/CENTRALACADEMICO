@@ -9,17 +9,19 @@ using Academico.Services;
 
 namespace Academico.Controllers;
 
-public class AutenticationController : Controller
+public class AlunoAuthController : Controller
 {
     private readonly AcademicoContext _context;
     private readonly GeradorCodigoService _geradorCodigo;
     private readonly PasswordHasher<Aluno> _passwordHasher; // Validador de hash POO do .NET
+    private readonly PasswordHasher<Professor> _passwordHasherProfessor;  // Validador de hash POO do .NET
 
-    public AutenticationController(AcademicoContext context, GeradorCodigoService geradorCodigo)
+    public AlunoAuthController(AcademicoContext context, GeradorCodigoService geradorCodigo)
     {
         _context = context;
         _geradorCodigo = geradorCodigo;
         _passwordHasher = new PasswordHasher<Aluno>();
+        _passwordHasherProfessor = new PasswordHasher<Professor>();
     }
 
     // ==========================================
@@ -113,7 +115,7 @@ public class AutenticationController : Controller
         await _context.SaveChangesAsync();
 
         TempData["MensagemSucesso"] = $"Cadastro realizado! Use seu CPF para logar. Sua matrícula é: {matriculaGerada}";
-        return RedirectToAction("Login");
+        return RedirectToAction("Login", "AlunoAuth");
     }
 
     // ==========================================
@@ -122,6 +124,15 @@ public class AutenticationController : Controller
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction("Login");
+        return RedirectToAction("PainelLogin", "AlunoAuth");
+    }
+
+    // ==========================================
+    // TELA SELEÇÃO DE PORTAL DE LOGIN (GET)
+    // ==========================================
+    [HttpGet]
+    public IActionResult PainelLogin()
+    {
+        return View();
     }
 }

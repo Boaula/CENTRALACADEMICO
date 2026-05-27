@@ -16,7 +16,7 @@ public class ProfessorController : Controller
         _professorRepository = professorRepository;
     }
     
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]  // 🚨 APENAS usuários com a Role "Admin" passam daqui
     public async Task<IActionResult> Index()
     {
         var professores = await _professorRepository.GetAllProfessores();
@@ -29,15 +29,13 @@ public class ProfessorController : Controller
         return View(professores); 
     }
 
-    [ApenasAdmin]
-
+    [Authorize(Roles = "Admin")] 
     public IActionResult CriarProfessor()
     {
         return View();
     }
 
-    [ApenasAdmin]
-    [HttpPost]
+    [Authorize(Roles = "Admin")]     [HttpPost]
     public async Task<IActionResult> CriarProfessorAsync(Professor professor)
     {
         if(await _professorRepository.CriarProfessorAsync(professor))
@@ -53,7 +51,7 @@ public class ProfessorController : Controller
         return RedirectToAction("CriarProfessor");
     }
 
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> AtualizarProfessor(int id)
     {
@@ -63,7 +61,7 @@ public class ProfessorController : Controller
         return View(professor);
     }
 
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> AtualizarProfessorAsync(Professor professor)
     {
@@ -79,7 +77,7 @@ public class ProfessorController : Controller
         return RedirectToAction("Atualizarprofessor");
     }
     
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ExcluirProfessorAsync(int Id)
     {
         if(await _professorRepository.ExcluirProfessorAsync(Id))

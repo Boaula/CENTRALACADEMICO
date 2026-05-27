@@ -30,9 +30,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         // Rota padrão (pode ser a do Aluno ou do ADM, o .NET usará esta se nenhuma for especificada)
-        options.LoginPath = "/Autentication/Login"; 
-        options.LogoutPath = "/Autentication/Logout";
-        options.AccessDeniedPath = "/Login/AcessoNegado";
+        options.LoginPath = "/AlunoAuth/PainelLogin"; 
+        options.AccessDeniedPath = "/AlunoAuth/PainelLogin"; 
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
     });
 
 // --------------------END AUTENTICAÇÃO-----------------------\\

@@ -1,0 +1,56 @@
+@model CadastroProfessorViewModel
+
+@{
+    ViewData["Title"] = "Cadastro de Professor";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg bg-dark border-secondary">
+                <div class="card-header border-secondary bg-black text-center py-3">
+                    <h4 class="text-white h5 mb-0 fw-bold tracking-wider" style="text-shadow: 0 0 10px rgba(25, 135, 84, 0.5);">
+                        📝 PRIMEIRO ACESSO / CADASTRO PROFESSOR
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Cadastro" asp-controller="ProfessorAuth" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Nome" class="form-label text-white-50 small fw-bold">NOME COMPLETO</label>
+                            <input asp-for="Nome" class="form-control bg-black text-white border-secondary" placeholder="Digite seu nome completo" />
+                            <span asp-validation-for="Nome" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Cpf" class="form-label text-white-50 small fw-bold">CPF (Seu Usuário)</label>
+                            <input asp-for="Cpf" class="form-control bg-black text-white border-secondary" placeholder="0000000" />
+                            <span asp-validation-for="Cpf" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="DataNascimento" class="form-label text-white-50 small fw-bold">Data de Nascimento</label>
+                            <input asp-for="DataNascimento" class="form-control bg-black text-white border-secondary" type="date" />
+                            <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Senha" class="form-label text-white-50 small fw-bold">Senha</label>
+                            <input asp-for="Senha" class="form-control bg-black text-white border-secondary" type="password" placeholder="*********" />
+                            <span asp-validation-for="Senha" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ConfirmarSenha" class="form-label text-white-50 small fw-bold">Confirmar Senha</label>
+                            <input asp-for="ConfirmarSenha" class="form-control bg-black text-white border-secondary" type="password" placeholder="*********" />
+                            <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="hero-buttons btn btn-dark border-success w-100">Cadastrar Professor</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

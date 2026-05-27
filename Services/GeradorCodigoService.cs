@@ -77,4 +77,25 @@ public class GeradorCodigoService
 
         return matriculaGerada;
     }
+
+    // ==========================================
+    // MÉTODO NOVO: GERAR SIAPE ÚNICO DO PROFESSOR (Ex: 3845921)
+    // ==========================================
+    public async Task<string> GerarSiapeUnicoAsync()
+    {
+        string siapeGerado;
+        bool siapeExiste;
+
+        do
+        {
+            // Sorteia um número de 7 dígitos entre 1000000 e 9999999
+            siapeGerado = _random.Next(1000000, 10000000).ToString();
+            
+            // Verifica na tabela de Professores se esse SIAPE já existe
+            siapeExiste = await _context.Professores.AnyAsync(p => p.Siape == siapeGerado);
+
+        } while (siapeExiste);
+
+        return siapeGerado;
+    }
 }

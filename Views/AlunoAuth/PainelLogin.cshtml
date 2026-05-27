@@ -1,0 +1,63 @@
+@{
+    ViewData["Title"] = "Seleção de Portal";
+}
+
+<div class="container d-flex flex-column align-items-center justify-content-center bg-black text-white my-3"">
+    
+    <div class="card bg-black border-secondary p-4 w-100 shadow-lg" style="max-width: 450px;">
+        
+        <div class="text-center mb-4">
+            <h5 class="text-white fw-bold text-uppercase tracking-wider m-0">Acesso ao Sistema</h5>
+            <small class="text-white-50 small">Escolha o seu perfil de entrada</small>
+        </div>
+
+        <div class="card-body p-0">
+            
+            <div class="form-group mb-3">
+                <label class="form-label text-white-50 small fw-bold">ESTUDANTE</label>
+                <div class="d-flex align-items-center justify-content-between form-control bg-black text-white border-secondary p-2.5">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-mortarboard text-white-50 ms-1"></i>
+                        <span class="text-white fw-semibold small">Portal do Aluno</span>
+                    </div>
+                    <a asp-controller="AlunoAuth" asp-action="Login" class="btn btn-dark border-secondary btn-sm px-3 text-uppercase fw-bold" style="font-size: 0.7rem;">
+                        Entrar
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label text-white-50 small fw-bold">DOCENTE</label>
+                <div class="d-flex align-items-center justify-content-between form-control bg-black text-white border-secondary p-2.5">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-cpu text-white-50 ms-1"></i>
+                        <span class="text-white fw-semibold small">Portal do Professor</span>
+                    </div>
+                    <a asp-controller="ProfessorAuth" asp-action="Login" class="btn btn-dark border-secondary btn-sm px-3 text-uppercase fw-bold" style="font-size: 0.7rem;">
+                        Entrar
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label class="form-label text-white-50 small fw-bold">CONTROLE RESTRITO</label>
+                <div class="d-flex align-items-center justify-content-between form-control bg-black text-white border-secondary p-2.5">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-shield-lock text-white-50 ms-1"></i>
+                        <span class="text-white fw-semibold small">Administração</span>
+                    </div>
+                    <a asp-controller="Login" asp-action="Entrar" class="btn btn-dark border-secondary btn-sm px-3 text-uppercase fw-bold" style="font-size: 0.7rem;">
+                        Acessar
+                    </a>
+                </div>
+            </div>
+
+            <hr class="border-secondary opacity-25 my-3" />
+
+            <a asp-controller="Home" asp-action="Index" class="hero-buttons btn btn-dark border-success w-100 text-uppercase fw-bold" style="font-size: 0.85rem;">
+                Voltar para o Site principal
+            </a>
+
+        </div>
+    </div>
+</div>

@@ -16,7 +16,7 @@ public class AlunoController : Controller
         _alunoRepository = alunoRepository;
     }
 
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")] // 🚨 APENAS usuários com a Role "Admin" passam daqui
     [HttpGet]
     public async Task<IActionResult> Index()
     {
@@ -30,13 +30,13 @@ public class AlunoController : Controller
         return View(alunos); 
     }
 
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     public IActionResult CriarAluno()
     {
         return View();
     }
 
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> CriarAlunoAsync(Aluno aluno)
     {
@@ -53,7 +53,7 @@ public class AlunoController : Controller
     }
 
     // 1. ESTE É O QUE BUSCA OS DADOS (Faltava este)
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> AtualizarAluno(int id)
     {
@@ -68,7 +68,7 @@ public class AlunoController : Controller
         return View(aluno); // Aqui a mágica acontece: os dados vão para o Form
     }
 
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> AtualizarAlunoAsync(Aluno aluno)
     {
@@ -84,7 +84,7 @@ public class AlunoController : Controller
         return RedirectToAction("AtualizarAluno");
     }
 
-    [ApenasAdmin]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ExcluirAlunoAsync(int Id)
     {
         if(await _alunoRepository.ExcluirAlunoAsync(Id))

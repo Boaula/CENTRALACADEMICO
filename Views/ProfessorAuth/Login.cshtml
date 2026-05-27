@@ -2,7 +2,7 @@
 
 @{
     Layout = "_Layout"; 
-    ViewData["Title"] = "Acesso do Aluno";
+    ViewData["Title"] = "Acesso do Professor";
 }
 
 <div class="container my-5">
@@ -11,7 +11,7 @@
             <div class="card shadow-lg bg-dark border-secondary">
                 <div class="card-header border-secondary bg-black text-center py-3">
                     <h2 class="text-white h4 mb-0 fw-bold tracking-wider" style="text-shadow: 0 0 10px rgba(13, 110, 253, 0.5);">
-                        🔐 PORTAL DO ALUNO
+                        🔐 PORTAL DO PROFESSOR
                     </h2>
                 </div>
                 <div class="card-body p-4">
@@ -25,10 +25,10 @@
                     
                     <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
 
-                    <form asp-action="Login" method="post">
+                  <form asp-action="Login" asp-controller="ProfessorAuth" method="post">
                         
                         <div class="form-group mb-3">
-                            <label asp-for="Matricula" class="form-label text-white-50 small fw-bold">CPF DO ESTUDANTE</label>
+                            <label asp-for="Matricula" class="form-label text-white-50 small fw-bold">CPF DO PROFESSOR</label>
                             <input asp-for="Matricula" class="form-control bg-black text-white border-secondary font-monospace" placeholder="000.000.000-00 (Apenas números)" />
                             <span asp-validation-for="Matricula" class="text-danger small"></span>
                         </div>
@@ -39,14 +39,14 @@
                             <span asp-validation-for="Senha" class="text-danger small"></span>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 fw-bold py-2 mb-3 tracking-wider">
+                        <button type="submit" class="hero-buttons btn btn-dark border-success w-100">
                             ENTRAR NO SISTEMA
                         </button>
                     </form>
                 </div>
                 <div class="card-footer border-secondary bg-black text-center py-3">
                     <span class="text-muted small">Novo por aqui?</span>
-                    <a asp-action="Cadastro" class="text-info small fw-bold text-decoration-none ms-1">Primeiro Acesso / Cadastre-se</a>
+                    <a asp-action="Cadastro" asp-controller="ProfessorAuth" class="text-info small fw-bold text-decoration-none ms-1">Primeiro Acesso / Cadastre-se</a>
                 </div>
             </div>
         </div>
