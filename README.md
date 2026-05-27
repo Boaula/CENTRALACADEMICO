@@ -1,76 +1,91 @@
-# DONET // SYSTEM
+# CentralAcademico
 
-> **Ecossistema de Gestão e Análise de Fluxos Acadêmicos**
+CentralAcademico é um sistema web ASP.NET Core MVC para gestão acadêmica (alunos, professores e disciplinas), com suporte a autenticação por cookies e administração por role `Admin`.
 
-O projeto **Donet** é uma plataforma de Atendimento Educacional Especializado (AEE), desenvolvida com foco em escalabilidade, organização arquitetural e ergonomia visual (Dark UI). O sistema integra processos administrativos e pedagógicos para otimizar o monitoramento de dados institucionais.
+**Este README foca em como configurar o banco de dados e executar as migrations.**
 
-## 🛠️ Tecnologias Utilizadas
+**Requisitos**
+- .NET SDK 8.0+ instalado
+- `dotnet-ef` (ferramenta CLI do EF Core) — opcionalmente instalada globalmente
 
-*   **Framework:** ASP.NET Core 8.0 (MVC)
-*   **Linguagem:** C# / TypeScript
-*   **Persistência de Dados:** Entity Framework Core
-*   **Banco de Dados:** MySQL / MariaDB
-*   **Estilização:** Bootstrap 5 & Custom Dark High-Contrast CSS
-*   **Ambiente de Desenvolvimento:** Linux Mint / VS Code
+**Instalar a ferramenta EF (opcional)**
+Use este comando se ainda não tiver o `dotnet-ef` disponível:
 
-## 🏗️ Arquitetura
+```
+dotnet tool install --global dotnet-ef
+```
 
-A aplicação fundamenta-se no padrão **Repository Pattern**, garantindo o desacoplamento entre a camada de acesso a dados (DAL) e as regras de negócio. 
-- **Injeção de Dependência:** Utilizada para gerenciamento de serviços e repositórios.
-- **Autenticação:** Sistema baseado em `Cookie Authentication` para controle de níveis de acesso (ADM/Professor).
+Ou rode localmente no projeto:
 
-## 🌑 Interface (Dark Batman Style)
+```
+dotnet add package Microsoft.EntityFrameworkCore.Design
+```
 
-O design foi projetado sob a estética de alto contraste, visando:
-- Redução da fadiga ocular em monitoramento prolongado.
-- Eficiência energética em displays modernos.
-- Interface minimalista com efeitos de *Glow Text* e *Bento Grid*.
+**Configurar a conexão (appsettings.json)**
+Edite o arquivo [appsettings.json](appsettings.json) na raiz do projeto e adicione a sua connection string em `ConnectionStrings:DefaultConnection`. Exemplos:
 
-## 🚀 Como Executar o Projeto
-
-1.  **Clonar o repositório:**
-    ```bash
-    git clone [https://github.com/seu-usuario/donet-system.git](https://github.com/seu-usuario/donet-system.git)
-
-1. Configurar o Banco de Dados:
-Ajuste a DefaultConnection no arquivo appsettings.json com suas credenciais do MySQL.
-
-
-3. Executar Migrations:
-dotnet ef database update
-
-4. Rodar a aplicação:
-dotnet run
-
-Executar e se atualizar:
-dotnet watch run
-
-
-## ⚙️ Configuração Local
-
-Por questões de segurança, os arquivos de configuração que contêm credenciais de banco de dados e senhas de administrador não são enviados ao repositório.
-
-**Para rodar o projeto, siga estes passos:**
-
-1. Na raiz do projeto, crie um arquivo chamado `appsettings.json`.
-2. Cole o seguinte conteúdo, ajustando com suas credenciais do MySQL:
-
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=AcademicoDB;Uid=seu_usuario;Pwd=sua_senha;"
-  },
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
-  "AllowedHosts": "*"
+- SQL Server:
+```
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost;Database=AcademicoDB;User Id=sa;Password=SuaSenha;TrustServerCertificate=True;"
 }
+```
 
+- SQLite (para testes locais):
+```
+"ConnectionStrings": {
+  "DefaultConnection": "Data Source=academico.db"
+}
+```
+
+Após ajustar a connection string, verifique que o `DbContext` (`AcademicoContext`) está registrado em `Program.cs`/`Startup` usando `options.UseSqlServer(...)` ou `options.UseSqlite(...)` conforme sua escolha.
+
+**Criar e aplicar migrations**
+1. Abra um terminal na pasta do projeto (`CentralAcademico`), onde está o arquivo `.csproj`.
+2. Para criar uma migration (exemplo solicitado):
+
+```
+dotnet ef migrations add CriandoDisciplina
+```
+
+3. Para aplicar as migrations e criar/atualizar o banco de dados:
+
+```
+dotnet ef database update
+```
+
+Observações úteis:
+- Se estiver em uma solução com múltiplos projetos, especifique o projeto de inicialização com `--startup-project` e o projeto onde estão as migrations com `--project`.
+  Exemplo:
+  ```
+  dotnet ef migrations add CriandoDisciplina --project Academico --startup-project Academico
+  dotnet ef database update --project Academico --startup-project Academico
+  ```
+- Se receber erro sobre o provedor (ex.: `No database provider has been configured`), confirme que `UseSqlServer` ou `UseSqlite` foi chamado no `Program.cs` e que a connection string existe.
+- Para remover a última migration (se ainda não foi aplicada):
+  ```
+  dotnet ef migrations remove
+  ```
+
+**Executando a aplicação**
+Após aplicar as migrations, rode a aplicação:
+
+```
+dotnet run
+```
+
+ou, durante desenvolvimento com recarregamento automático:
+
+```
+dotnet watch run
+```
+
+**Arquivos importantes**
+- `Program.cs`: registra `AcademicoContext` e configura serviços.
+- `AcademicoContext.cs` (em `Models/`): definição do DbContext e DbSets.
+- `Migrations/`: pasta onde o EF cria os arquivos de migrations.
+
+Se quiser, posso também gerar um exemplo de `appsettings.json` já preenchido para o seu ambiente (SQL Server ou SQLite). Caso queira, diga qual banco você prefere.
 
 ---
-**Desenvolvido por:** Natanael F. Rodrigues  
-**Instituição:** IFMT - Campus Campo Verde  
-**Ano:** 2026
+Desenvolvido por: Natanael F. Rodrigues — IFMT (2026)
