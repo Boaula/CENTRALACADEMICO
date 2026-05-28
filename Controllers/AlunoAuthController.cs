@@ -34,8 +34,11 @@ public class AlunoAuthController : Controller
     {
         if (!ModelState.IsValid) return View(model);
 
-        // Busca o aluno diretamente via DbContext usando o CPF (UserName)
-        var aluno = await _context.Alunos.FirstOrDefaultAsync(a => a.UserName == model.Matricula);
+        // 🚨 BLINDAGEM: Limpa o CPF digitado no login (remove pontos e traço da máscara)
+        string cpfTratado = model.Cpf.Replace(".", "").Replace("-", "").Trim();
+
+        // Busca o aluno usando o CPF limpo comparado com o UserName do banco
+        var aluno = await _context.Alunos.FirstOrDefaultAsync(a => a.UserName == cpfTratado);
 
         if (aluno == null)
         {
@@ -57,6 +60,7 @@ public class AlunoAuthController : Controller
         {
             new Claim(ClaimTypes.NameIdentifier, aluno.Id.ToString()),
             new Claim(ClaimTypes.Name, aluno.Nome),
+            new Claim(ClaimTypes.Role, "Aluno"), // Adicionado por boa prática
             new Claim("Matricula", aluno.Matricula)
         };
 
@@ -75,7 +79,7 @@ public class AlunoAuthController : Controller
     [HttpGet] public IActionResult Cadastro() => View();
 
     [HttpPost]
-    public async Task<IActionResult> Cadastro(CadastroViewModel model)
+    public async Task<IActionResult> Cadastro(CadastroAlunoViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
 
@@ -86,8 +90,11 @@ public class AlunoAuthController : Controller
             return View(model);
         }
 
-        // Verifica duplicidade usando o DbContext puro
-        var alunoExiste = await _context.Alunos.AnyAsync(a => a.UserName == model.Cpf);
+        //BLINDAGEM: Limpa o CPF vindo da tela de cadastro
+        string cpfLimpo = model.Cpf.Replace(".", "").Replace("-", "").Trim();
+
+        // Verifica duplicidade usando o CPF limpo
+        var alunoExiste = await _context.Alunos.AnyAsync(a => a.UserName == cpfLimpo);
         if (alunoExiste)
         {
             ModelState.AddModelError("", "Este CPF já está cadastrado.");
@@ -99,13 +106,14 @@ public class AlunoAuthController : Controller
         var novoAluno = new Aluno
         {
             Nome = model.Nome,
-            Cpf = model.Cpf,
+            Cpf = cpfLimpo,          //Salva apenas números no banco
+            UserName = cpfLimpo,     //Salva apenas números no banco
             DataNascimento = model.DataNascimento,
             Matricula = matriculaGerada,
             Curso = "Pendente",
-            UserName = model.Cpf,
+            Email = model.Email,
             Senha = "manual_managed",
-            SecurityStamp = Guid.NewGuid().ToString() // Mantém a coluna do banco preenchida
+            SecurityStamp = Guid.NewGuid().ToString() 
         };
 
         // Criptografa a senha antes de salvar na coluna PasswordHash

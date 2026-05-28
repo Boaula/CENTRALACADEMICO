@@ -28,15 +28,26 @@ public class ProfessorRepository : IProfessorRepository
         await _context.SaveChangesAsync();
         return true;
     }
+    
     public async Task<bool> AtualizarProfessorAsync(Professor professor)
     {
-        var professorBanco = await _context.Professores.FirstOrDefaultAsync(x => x.Id == professor.Id);
-        professorBanco!.Nome = professor.Nome;
-        professorBanco.Cpf = professor.Cpf;
-        professorBanco.Area = professor.Area;
+        // Busca o registro atual do banco para evitar conflito de tracking
+        var professorBanco = await _context.Professores.FindAsync(professor.Id);
+        
+        if (professorBanco == null) return false;
+
+        // Atualiza os campos manualmente
+        professorBanco.Nome = professor.Nome;
+        professorBanco.Email = professor.Email;
         professorBanco.DataNascimento = professor.DataNascimento;
-        await _context.SaveChangesAsync();
-        return true;
+        professorBanco.Area = professor.Area;
+        
+        // Atualiza o CPF e o UserName com os novos valores enviados pelo ADM
+        professorBanco.Cpf = professor.Cpf;
+        professorBanco.UserName = professor.UserName; 
+
+        // Salva as alterações
+        return await _context.SaveChangesAsync() > 0;
     }
     
     public async Task<bool> ExcluirProfessorAsync(int id)

@@ -7,6 +7,10 @@ public class CadastroProfessorViewModel
     [Required(ErrorMessage = "O nome é obrigatório.")]
     public string Nome { get; set; } = string.Empty;
 
+    [Required(ErrorMessage = "O E-mail é obrigatório.")]
+    [EmailAddress(ErrorMessage = "O e-mail não é válido.")]
+    public string Email { get; set; } = string.Empty;
+
     [Required(ErrorMessage = "O CPF é obrigatório.")]
     public string Cpf { get; set; } = string.Empty;
 

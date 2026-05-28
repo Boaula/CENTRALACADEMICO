@@ -26,15 +26,26 @@ public class AlunoRepository : IAlunoRepository
 
     public async Task<bool> AtualizarAlunoAsync(Aluno aluno)
     {
-        var alunoBanco = await _context.Alunos.FirstOrDefaultAsync(x => x.Id == aluno.Id);
-        alunoBanco!.Nome = aluno.Nome;
-        alunoBanco.Cpf = aluno.Cpf;
-        alunoBanco.Curso = aluno.Curso;
-        alunoBanco.DataNascimento = aluno.DataNascimento;
-        await _context.SaveChangesAsync();
-        return true;
-    }
+        // 1. Busca o aluno original direto do banco usando o ID
+        var alunoBanco = await _context.Alunos.FindAsync(aluno.Id);
+        
+        if (alunoBanco == null) return false;
 
+        // 2. Atualiza apenas o que o ADM pode mexer na tela
+        alunoBanco.Nome = aluno.Nome;
+        alunoBanco.Email = aluno.Email;
+        alunoBanco.DataNascimento = aluno.DataNascimento;
+        alunoBanco.Curso = aluno.Curso;
+
+        // 3. Atualiza as chaves tratadas que o ADM editou
+        alunoBanco.Cpf = aluno.Cpf;
+        alunoBanco.UserName = aluno.UserName;
+
+        //NOTA: Repare que NÃO alteramos o alunoBanco.Matricula aqui!
+        // Ele manterá a matrícula original que já estava salva no MySQL.
+
+        return await _context.SaveChangesAsync() > 0;
+    }
     public async Task<Aluno> BuscarPorIdAsync(int id)
     {
         // O FirstOrDefaultAsync busca o aluno que tem o ID igual ao que clicamos na lista

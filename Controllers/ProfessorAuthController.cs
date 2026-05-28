@@ -42,7 +42,11 @@ public class ProfessorAuthController : Controller
             return View(model);
         }
 
-        var professorExiste = await _context.Professores.AnyAsync(p => p.Cpf == model.Cpf);
+        //LIMPA O CPF LOGO NO CADASTRO (Remove pontos e traços da máscara)
+        string cpfLimpo = model.Cpf.Replace(".", "").Replace("-", "").Trim();
+
+        //Verifica duplicidade usando o CPF já limpo
+        var professorExiste = await _context.Professores.AnyAsync(p => p.Cpf == cpfLimpo);
         if (professorExiste)
         {
             ModelState.AddModelError("", "Este CPF de professor já está cadastrado.");
@@ -54,9 +58,10 @@ public class ProfessorAuthController : Controller
         var novoProfessor = new Professor
         {
             Nome = model.Nome,
-            Cpf = model.Cpf,
+            Email = model.Email,
+            Cpf = cpfLimpo,          //Salva apenas números no banco (Ex: 33322211166)
+            UserName = cpfLimpo,     //Salva apenas números no banco (Ex: 33322211166)
             DataNascimento = model.DataNascimento,
-            UserName = model.Cpf,
             Area = "Não Especificada",
             Siape = siapeGerado
         };
@@ -69,7 +74,6 @@ public class ProfessorAuthController : Controller
         TempData["MensagemSucesso"] = $"Professor cadastrado com sucesso! Acesse com seu CPF.";
         return RedirectToAction("Login");
     }
-
     // ==========================================
     // TELA DE LOGIN DO PROFESSOR (GET)
     // ==========================================
@@ -84,12 +88,15 @@ public class ProfessorAuthController : Controller
     {
         if (!ModelState.IsValid) return View(model);
 
-        var professor = await _context.Professores
-            .FirstOrDefaultAsync(p => p.UserName == model.Matricula);
+        // Limpa o CPF digitado no login
+        string cpfTratado = model.Cpf.Replace(".", "").Replace("-", "").Trim();
+
+        // Busca pelo UserName que agora foi atualizado corretamente pelo ADM
+        var professor = await _context.Professores.FirstOrDefaultAsync(p => p.UserName == cpfTratado);
 
         if (professor == null)
         {
-            ModelState.AddModelError(string.Empty, "Professor não encontrado com este CPF.");
+            ModelState.AddModelError("", "Usuário não encontrado com este CPF.");
             return View(model);
         }
 

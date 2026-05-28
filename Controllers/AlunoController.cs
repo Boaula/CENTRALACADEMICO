@@ -38,17 +38,44 @@ public class AlunoController : Controller
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
+    [HttpPost]
     public async Task<IActionResult> CriarAlunoAsync(Aluno aluno)
     {
-        if(await _alunoRepository.CriarAlunoAsync(aluno))
+        if (aluno == null) return BadRequest();
+
+        //BLINDAGEM: Limpa o CPF enviado pelo formulário do ADM
+        string cpfLimpo = aluno.Cpf.Replace(".", "").Replace("-", "").Trim();
+        
+        aluno.Cpf = cpfLimpo;
+        aluno.UserName = cpfLimpo; //Essencial para o login funcionar depois!
+        aluno.SecurityStamp = Guid.NewGuid().ToString();
+        aluno.Curso ??= "Pendente"; // Evita nulos se não for preenchido na tela
+        aluno.Senha = "manual_managed";
+
+        //GERAR MATRÍCULA ÚNICA (Se o seu repositório já não fizer isso)
+        // Se o repositório não gera a matrícula automaticamente, gere aqui:
+        //aluno.Matricula = await _geradorCodigo.GerarMatriculaUnicaAsync();
+
+        // 3. CRIPTOGRAFAR A SENHA INICIAL
+        // Se o ADM define uma senha (ex: aluno.PasswordHash vindo de um input 'Senha'), criptografe-a:
+        if (!string.IsNullOrEmpty(aluno.PasswordHash))
+        {
+            var passwordHasher = new Microsoft.AspNetCore.Identity.PasswordHasher<Aluno>();
+            aluno.PasswordHash = passwordHasher.HashPassword(aluno, aluno.PasswordHash);
+        }
+
+        // Envia o objeto totalmente tratado para o repositório salvar
+        if (await _alunoRepository.CriarAlunoAsync(aluno))
         {
             TempData["Tipo"] = "success";
-            TempData["Mensagem"] = $"Aluno {aluno.Nome} Cadastrado com sucesso";
-        } else
+            TempData["Mensagem"] = $"Aluno {aluno.Nome} cadastrado com sucesso!";
+        } 
+        else
         {
             TempData["Tipo"] = "danger";
-            TempData["Mensagem"] = $"Aluno {aluno.Nome} Cadastrado com sucesso";
+            TempData["Mensagem"] = $"Erro ao cadastrar o aluno {aluno.Nome}.";
         }
+        
         return RedirectToAction("CriarAluno");
     }
 
@@ -72,16 +99,26 @@ public class AlunoController : Controller
     [HttpPost]
     public async Task<IActionResult> AtualizarAlunoAsync(Aluno aluno)
     {
-        if(await _alunoRepository.AtualizarAlunoAsync(aluno))
+        if (aluno == null) return BadRequest();
+
+        //ADM: Limpa o CPF enviado no formulário de edição
+        string cpfLimpo = aluno.Cpf.Replace(".", "").Replace("-", "").Trim();
+        
+        aluno.Cpf = cpfLimpo;
+        aluno.UserName = cpfLimpo; //Sincroniza o UserName do banco com o novo CPF
+
+        if (await _alunoRepository.AtualizarAlunoAsync(aluno))
         {
             TempData["Tipo"] = "success";
             TempData["Mensagem"] = $"Aluno {aluno.Nome} atualizado com sucesso!";
-        } else
+        } 
+        else
         {
             TempData["Tipo"] = "danger";
             TempData["Mensagem"] = $"Aluno {aluno.Nome} não atualizado!";
         }
-        return RedirectToAction("AtualizarAluno");
+        
+        return RedirectToAction("Index"); // Ajuste o redirecionamento para a sua View de listagem se necessário
     }
 
     [Authorize(Roles = "Admin")]

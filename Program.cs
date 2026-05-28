@@ -18,6 +18,7 @@ builder.Services.AddScoped<IAlunoRepository, AlunoRepository>();
 builder.Services.AddScoped<IProfessorRepository, ProfessorRepository>();
 builder.Services.AddScoped<IDisciplinaRepository, DisciplinaRepository>();
 builder.Services.AddScoped<GeradorCodigoService>();
+builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 
 // Conexão com o Banco de Dados
 builder.Services.AddDbContext<AcademicoContext>(options => 

@@ -16,7 +16,7 @@ public class ProfessorController : Controller
         _professorRepository = professorRepository;
     }
     
-    [Authorize(Roles = "Admin")]  // 🚨 APENAS usuários com a Role "Admin" passam daqui
+    [Authorize(Roles = "Admin")]  //APENAS usuários com a Role "Admin" passam daqui
     public async Task<IActionResult> Index()
     {
         var professores = await _professorRepository.GetAllProfessores();
@@ -36,18 +36,41 @@ public class ProfessorController : Controller
     }
 
     [Authorize(Roles = "Admin")]     [HttpPost]
+    [HttpPost]
     public async Task<IActionResult> CriarProfessorAsync(Professor professor)
     {
-        if(await _professorRepository.CriarProfessorAsync(professor))
+        if (professor == null) return BadRequest();
+
+        //BLINDAGEM: Limpa o CPF enviado pelo formulário do ADM para o Professor
+        string cpfLimpo = professor.Cpf.Replace(".", "").Replace("-", "").Trim();
+        
+        professor.Cpf = cpfLimpo;
+        professor.UserName = cpfLimpo; //Essencial para o login funcionar depois!
+        professor.Area ??= "Não Especificada"; // Evita nulos se não for preenchido na tela
+
+        //GERAR SIAPE ÚNICO (Caso seu repositório ainda não faça isso)
+        // Se o repositório não gerar automaticamente, injete o serviço e gere aqui:
+        // professor.Siape = await _geradorCodigo.GerarSiapeUnicoAsync();
+
+        //CRIPTOGRAFAR A SENHA INICIAL COM O HASHER DE PROFESSOR
+        if (!string.IsNullOrEmpty(professor.PasswordHash))
+        {
+            var passwordHasherProfessor = new Microsoft.AspNetCore.Identity.PasswordHasher<Professor>();
+            professor.PasswordHash = passwordHasherProfessor.HashPassword(professor, professor.PasswordHash);
+        }
+
+        // Envia o objeto totalmente tratado para o repositório de professores salvar
+        if (await _professorRepository.CriarProfessorAsync(professor))
         {
             TempData["Tipo"] = "success";
-            TempData["Mensagem"] = $"Professor {professor.Nome} Cadastrado com sucesso";
-        } else
+            TempData["Mensagem"] = $"Professor {professor.Nome} cadastrado com sucesso!";
+        } 
+        else
         {
             TempData["Tipo"] = "danger";
-            TempData["Mensagem"] = $"Professor {professor.Nome} Cadastrado com sucesso";
+            TempData["Mensagem"] = $"Erro ao cadastrar o professor {professor.Nome}.";
         }
-        //await _professorRepository.CriarProfessorAsync(professor);
+        
         return RedirectToAction("CriarProfessor");
     }
 
@@ -65,16 +88,26 @@ public class ProfessorController : Controller
     [HttpPost]
     public async Task<IActionResult> AtualizarProfessorAsync(Professor professor)
     {
-        if(await _professorRepository.AtualizarProfessorAsync(professor))
+        if (professor == null) return BadRequest();
+
+        string cpfLimpo = professor.Cpf.Replace(".", "").Replace("-", "").Trim();
+        
+        professor.Cpf = cpfLimpo;
+        
+        professor.UserName = cpfLimpo;
+
+        if (await _professorRepository.AtualizarProfessorAsync(professor))
         {
             TempData["Tipo"] = "success";
-            TempData["Mensagem"] = $"Professor {professor.Nome} atualizado com sucesso!";
-        } else
+            TempData["Mensagem"] = $"Professor {professor.Nome} atualizado com sucesso! Novo CPF: {professor.Cpf}";
+        } 
+        else
         {
             TempData["Tipo"] = "danger";
             TempData["Mensagem"] = $"Professor {professor.Nome} não atualizado!";
         }
-        return RedirectToAction("Atualizarprofessor");
+        
+        return RedirectToAction("Index"); // Geralmente redireciona para a lista após editar
     }
     
     [Authorize(Roles = "Admin")]

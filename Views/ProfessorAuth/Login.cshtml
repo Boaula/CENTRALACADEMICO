@@ -28,9 +28,9 @@
                   <form asp-action="Login" asp-controller="ProfessorAuth" method="post">
                         
                         <div class="form-group mb-3">
-                            <label asp-for="Matricula" class="form-label text-white-50 small fw-bold">CPF DO PROFESSOR</label>
-                            <input asp-for="Matricula" class="form-control bg-black text-white border-secondary font-monospace" placeholder="000.000.000-00 (Apenas números)" />
-                            <span asp-validation-for="Matricula" class="text-danger small"></span>
+                            <label asp-for="Cpf" class="form-label text-white-50 small fw-bold">CPF DO PROFESSOR</label>
+                            <input asp-for="Cpf" class="form-control bg-black text-white border-secondary font-monospace" placeholder="000.000.000-00" id="cpfInput"/>
+                            <span asp-validation-for="Cpf" class="text-danger small"></span>
                         </div>
 
                         <div class="form-group mb-4">
@@ -52,3 +52,12 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#cpfInput').mask('000.000.000-00');
+        });
+    </script>
+}
